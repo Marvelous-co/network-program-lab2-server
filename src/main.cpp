@@ -1,7 +1,6 @@
 #include "header.h"
 #include "User.h"
 #include "LoginUserMap.h"
-#include "Message.h"
 
 const int MAX_EVENTS = 10;
 const int BUFFER_SIZE = 1024;
@@ -106,11 +105,7 @@ int main() {
                         perror("Epoll control failed for client");
                         close(client_fd);
                     }
-
-                    // 将新连接的用户添加到 LoginUserMap 中
-                    LoginUserMap::addLoginUser(client_fd);
                 }
-
                 if (errno != EAGAIN && errno != EWOULDBLOCK) {
                     perror("Accept failed");
                 }
@@ -123,7 +118,6 @@ int main() {
                 int bytes_read = read(client_fd, buffer, BUFFER_SIZE - 1);
                 if (bytes_read > 0) {
                     std::cout << "Received from FD " << client_fd << ": \n" << buffer << std::endl;
-                    
                     // 处理发送来的消息
                     if (!Message::handleMessage(client_fd, buffer)) {
                         std::cout << "main(): handleMessage ERROR!!!" << std::endl;
@@ -132,10 +126,6 @@ int main() {
                     // 客户端关闭连接
                     std::cout << "Client disconnected: FD " << client_fd << std::endl;
                     epoll_ctl(epoll_fd, EPOLL_CTL_DEL, client_fd, nullptr);
-
-                    // 将断开连接的用户从 LoginUserMap 中移除
-                    LoginUserMap::removeLoginUser(client_fd);
-                    
                     close(client_fd);
                 } else {
                     perror("Read failed");

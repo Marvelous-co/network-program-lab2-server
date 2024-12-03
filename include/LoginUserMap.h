@@ -8,7 +8,7 @@ class LoginUserMap {
 public:
     static std::unordered_map<int, User> userMap;
 
-    static bool addLoginUser(int fd);
+    static bool addLoginUser(int fd, std::string username);
     static bool removeLoginUser(int fd);
 };
 

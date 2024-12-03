@@ -6,11 +6,11 @@ std::unordered_map<int, User> LoginUserMap::userMap;
  * @description: 向 LoginUserMap 中添加登录用户
  * @return: true: 添加成功, false: 添加失败, map 中已经有对应的 fd
  */
-bool LoginUserMap::addLoginUser(int fd) {
+bool LoginUserMap::addLoginUser(int fd, std::string username) {
     if (LoginUserMap::userMap.find(fd) != LoginUserMap::userMap.end()) {
         return false;
     }
-    User* user = new User(User::generateRandomUsername());
+    User* user = new User(username);
     LoginUserMap::userMap[fd] = *user;
     return true;
 }

@@ -2,6 +2,7 @@
 #include <chrono>
 #include <random>
 
+
 // 构造函数
 User::User(const std::string& name) {
     this->name = name;
@@ -15,11 +16,11 @@ std::string User::getName() const {
     return name;
 }
 
-void User::pushMessage(const std::string& message) {
-    this->message.push_back(message);
+void User::pushMessage(Message* msg) {
+    this->message.push_back(msg);
 }
 
-std::vector<std::string> User::getMessageArr() const {
+std::vector<Message*> User::getMessageArr() const {
     return this->message;
 }
 
